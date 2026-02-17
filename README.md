@@ -116,7 +116,7 @@ To update with your PhonePe details:
 - PYQs (Previous Year Questions)
 
 ## Note Price
-₹199 (One-time payment per note)
+₹19 (One-time payment per note)
 
 ---
 
