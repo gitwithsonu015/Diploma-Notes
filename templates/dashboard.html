@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Diploma Notes{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="fas fa-user-circle"></i> Welcome, {{ current_user.name }}!</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card bg-light mb-3">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-shopping-cart display-4 text-primary"></i>
+                                    <h4 class="mt-3">{{ pending|length }}</h4>
+                                    <p class="mb-0">Pending Purchases</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light mb-3">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-check-circle display-4 text-success"></i>
+                                    <h4 class="mt-3">{{ purchased|length }}</h4>
+                                    <p class="mb-0">Approved Purchases</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light mb-3">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-coins display-4 text-warning"></i>
+                                    <h4 class="mt-3">₹19</h4>
+                                    <p class="mb-0">Price per Notes</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if pending %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-warning">
+                    <h4 class="mb-0 text-white"><i class="fas fa-clock"></i> Pending Payments</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Note Title</th>
+                                    <th>Branch</th>
+                                    <th>Category</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in pending %}
+                                <tr>
+                                    <td>{{ p.note.title }}</td>
+                                    <td>{{ p.note.branch }}</td>
+                                    <td>{{ p.note.category }}</td>
+                                    <td>{{ p.note.price }}</td>
+                                    <td>{{ p.created_at.strftime('%d-%m-%Y') }}</td>
+                                    <td><span class="badge bg-warning">Pending Verification</span></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-muted mt-2"><i class="fas fa-info-circle"></i> Please wait while we verify your payment. Verification may take some time.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"><i class="fas fa-download"></i> My Purchased Notes</h4>
+                </div>
+                <div class="card-body">
+                    {% if purchased %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Note Title</th>
+                                    <th>Branch</th>
+                                    <th>Category</th>
+                                    <th>Purchase Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in purchased %}
+                                <tr>
+                                    <td>{{ p.note.title }}</td>
+                                    <td><span class="badge bg-primary">{{ p.note.branch }}</span></td>
+                                    <td><span class="badge bg-info">{{ p.note.category }}</span></td>
+                                    <td>{{ p.created_at.strftime('%d-%m-%Y') }}</td>
+                                    <td>
+                                        <a href="{{ url_for('download', note_id=p.note.id) }}" class="btn btn-sm btn-success">
+                                            <i class="fas fa-download"></i> Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-folder-open display-1 text-muted"></i>
+                        <h4 class="mt-3 text-muted">No Purchases Yet</h4>
+                        <p>Browse our notes and make your first purchase!</p>
+                        <a href="{{ url_for('notes') }}" class="btn btn-primary btn-lg">Browse Notes</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a href="{{ url_for('notes') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-search"></i> Browse More Notes
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

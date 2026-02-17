@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Success - Diploma Notes{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    <i class="fas fa-check-circle display-1 text-success"></i>
+                    <h2 class="mt-4">Payment Successful!</h2>
+                    <p class="lead">Thank you for your purchase.</p>
+                    
+                    <div class="alert alert-info mt-4">
+                        <h5>What's Next?</h5>
+                        <p class="mb-0">
+                            Your payment is being verified. Once verified, you will be able to download your notes.
+                            This usually takes a few minutes.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-tachometer-alt"></i> Go to Dashboard
+                        </a>
+                        <a href="{{ url_for('notes') }}" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-book"></i> Browse More Notes
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

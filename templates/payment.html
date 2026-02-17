@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Payment - Diploma Notes{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-lg">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0"><i class="fas fa-credit-card"></i> Complete Your Payment</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Note Details -->
+                    <div class="alert alert-info">
+                        <h5>Purchase Details</h5>
+                        <p class="mb-0">
+                            <strong>Note:</strong> {{ note.title }}<br>
+                            <strong>Branch:</strong> {{ note.branch }}<br>
+                            <strong>Category:</strong> {{ note.category }}<br>
+                            <strong>Total:</strong> <span class="h4 text-success">₹{{ note.price }}</span>
+                        </p>
+                    </div>
+                    
+                    <hr>
+                    
+                    <!-- Payment Instructions -->
+                    <div class="text-center mb-4">
+                        <h4>Scan to Pay via PhonePe</h4>
+                        <p class="text-muted">Scan the QR code below using your PhonePe app</p>
+                    </div>
+                    
+                    <!-- QR Code Placeholder -->
+                    <div class="text-center mb-4">
+                        <div class="qr-container p-4 bg-light d-inline-block rounded">
+                            <img src="{{ url_for('static', filename='images/myphonepeqr.jpeg') }}" width="250">
+
+
+                        </div>
+                        <p class="mt-2 text-muted">
+                            <small>QR Code will be displayed here<br>
+                            Or pay to UPI ID: <strong>8294255694@ybl</strong></small>
+                        </p>
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <h5><i class="fas fa-info-circle"></i> How to Pay:</h5>
+                        <ol class="mb-0">
+                            <li>Open PhonePe app on your phone</li>
+                            <li>Scan the QR code or enter UPI ID</li>
+                            <li>Pay ₹19 to complete purchase</li>
+                            <li>Take a screenshot of payment confirmation</li>
+                            <li>Upload the screenshot below</li>
+                        </ol>
+                    </div>
+                    
+                    <!-- Payment Proof Upload -->
+                    <form method="POST" enctype="multipart/form-data" class="mt-4">
+                        <div class="mb-3">
+                            <label for="payment_proof" class="form-label">
+                                <i class="fas fa-upload"></i> Upload Payment Screenshot
+                            </label>
+                            <input type="file" class="form-control" id="payment_proof" name="payment_proof" accept="image/*" required>
+                            <div class="form-text">Upload a screenshot of your payment confirmation (JPG, PNG)</div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-check"></i> Submit Payment Proof
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <a href="{{ url_for('note_detail', note_id=note.id) }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.qr-container {
+    border: 2px dashed #ccc;
+}
+</style>
+{% endblock %}

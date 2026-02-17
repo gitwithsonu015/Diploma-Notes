@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block title %}Diploma Notes - Home{% endblock %}
+
+{% block content %}
+<div class="hero-section bg-gradient">
+    <div class="container">
+        <div class="row align-items-center min-vh-75">
+            <div class="col-lg-6">
+                <h1 class="display-3 fw-bold text-black mb-4">
+                    Engineering Notes for Diploma Students
+                </h1>
+                <p class="lead text-black mb-4"><b>
+                    Get comprehensive study material including Notes, Syllabus, and Previous Year Questions 
+                    for all diploma engineering branches at just ₹19-/ 
+                </b></p>
+                <div class="d-flex gap-3">
+                    {% if not current_user.is_authenticated %}
+                    <a href="{{ url_for('register') }}" class="btn btn-dark-black btn-lg">Get Started</a>
+                    <a href="{{ url_for('login') }}" class="btn btn-dark-black btn-lg">Login</a>
+                    {% else %}
+                    <a href="{{ url_for('notes') }}" class="btn btn-light btn-lg">Browse Notes</a>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light btn-lg">My Dashboard</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="hero-image">
+                    <i class="fas fa-book-open display-1 text-white"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <h2 class="text-center mb-5">Why Choose Our Notes?</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 feature-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-file-pdf display-4 text-primary mb-3"></i>
+                    <h5 class="card-title">Quality Content</h5>
+                    <p class="card-text">Well-structured notes prepared by experienced educators</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 feature-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-tag display-4 text-success mb-3"></i>
+                    <h5 class="card-title">Affordable Price</h5>
+                    <p class="card-text">All study material at just ₹19 - One time payment!</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 feature-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-download display-4 text-info mb-3"></i>
+                    <h5 class="card-title">Instant Download</h5>
+                    <p class="card-text">Get instant access to PDFs after payment verification</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <h2 class="text-center mb-5">Available Branches</h2>
+    <div class="row g-4">
+        <div class="col-md-4 col-sm-6">
+            <div class="branch-card text-center">
+                <i class="fas fa-laptop-code display-4"></i>
+                <h4>Computer Science & Engineering</h4>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="branch-card text-center">
+                <i class="fas fa-building display-4"></i>
+                <h4>Civil Engineering</h4>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="branch-card text-center">
+                <i class="fas fa-cogs display-4"></i>
+                <h4>Mechanical Engineering</h4>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="branch-card text-center">
+                <i class="fas fa-bolt display-4"></i>
+                <h4>Electrical Engineering</h4>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="branch-card text-center">
+                <i class="fas fa-microchip display-4"></i>
+                <h4>Electronics Engineering</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <h2 class="text-center mb-5">What's Included</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="category-card text-center">
+                <i class="fas fa-sticky-note display-5"></i>
+                <h4>Notes</h4>
+                <p>Comprehensive chapter-wise notes</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="category-card text-center">
+                <i class="fas fa-list-alt display-5"></i>
+                <h4>Syllabus</h4>
+                <p>Complete semester-wise syllabus</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="category-card text-center">
+                <i class="fas fa-question-circle display-5"></i>
+                <h4>PYQs</h4>
+                <p>Previous year question papers</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if current_user.is_authenticated and notes %}
+<div class="container py-5">
+    <h2 class="text-center mb-5">Your Available Notes</h2>
+    <div class="row g-4">
+        {% for note in notes[:6] %}
+        <div class="col-md-4 col-sm-6">
+            <div class="card note-card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ note.title }}</h5>
+                    <p class="card-text">
+                        <span class="badge bg-primary">{{ note.branch }}</span>
+                        <span class="badge bg-success">{{ note.category }}</span>
+                    </p>
+                    <p class="card-text">{{ note.description[:100] }}...</p>
+                    <a href="{{ url_for('note_detail', note_id=note.id) }}" class="btn btn-sm btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+        <a href="{{ url_for('notes') }}" class="btn btn-lg btn-primary">View All Notes</a>
+    </div>
+</div>
+{% endif %}
+
+<style>
+.bg-gradient {
+    background: rgb(64, 230, 230);
+}
+.hero-section {
+    padding: 50px 0;
+}
+.feature-card, .branch-card, .category-card, .note-card {
+    transition: transform 0.3s;
+    border: none;
+    box-shadow: 0 4px 6px rgb(77, 75, 190);
+}
+.feature-card:hover, .branch-card:hover, .category-card:hover, .note-card:hover {
+    transform: translateY(-5px);
+}
+.branch-card, .category-card {
+    padding: 30px;
+    background: #1db5e7;
+    border-radius: 10px;
+}
+</style>
+{% endblock %}

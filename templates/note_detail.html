@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}{{ note.title }} - Diploma Notes{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">{{ note.title }}</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <span class="badge bg-primary fs-6">{{ note.branch }} Engineering</span>
+                        <span class="badge bg-success fs-6">{{ note.category }}</span>
+                    </div>
+                    
+                    <h5 class="mt-4">Description</h5>
+                    <p class="text-muted">{{ note.description }}</p>
+                    
+                    <hr>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong><i class="fas fa-tag"></i> Price:</strong> <span class="h4 text-success">₹{{ note.price }}</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong><i class="fas fa-calendar"></i> Added:</strong> {{ note.created_at.strftime('%d-%m-%Y') }}</p>
+                        </div>
+                    </div>
+                    
+                    {% if purchased %}
+                    <div class="alert alert-success mt-3">
+                        <h5><i class="fas fa-check-circle"></i> You own this note!</h5>
+                        <p class="mb-0">You can download this note now.</p>
+                    </div>
+                    <a href="{{ url_for('download', note_id=note.id) }}" class="btn btn-success btn-lg w-100">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                    {% elif pending %}
+                    <div class="alert alert-warning mt-3">
+                        <h5><i class="fas fa-clock"></i> Payment Pending</h5>
+                        <p class="mb-0">Your payment is being verified. Please wait.</p>
+                    </div>
+                    {% else %}
+                    <div class="d-grid mt-4">
+                        <a href="{{ url_for('purchase', note_id=note.id) }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-shopping-cart"></i> Buy Now for ₹19
+                        </a>
+                    </div>
+                    <p class="text-center text-muted mt-2">
+                        <small>Secure payment via PhonePe UPI</small>
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="mt-3">
+                <a href="{{ url_for('notes') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Notes
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
