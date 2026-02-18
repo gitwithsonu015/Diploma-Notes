@@ -383,9 +383,9 @@ with app.app_context():
     if not owner:
         owner = User(
             name='Owner',
-            email='notesdiploma8@gmail.com',
+            email='owner@diplomanotes.com',
             phone='8294255694',
-            password=generate_password_hash('sonu8294@', method='pbkdf2:sha256'),
+            password=generate_password_hash('owner123', method='pbkdf2:sha256'),
             role='owner'
         )
         db.session.add(owner)
